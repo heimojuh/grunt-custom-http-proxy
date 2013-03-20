@@ -1,5 +1,13 @@
 var express  = require("express");
 
+//proxy
+//
+//  apiProxy = (host, port, proxy) ->
+//      proxy.on "proxyError", (err, req, res) ->
+//            res.statusCode = 500
+//                  res.write("API Proxying to `#{req.url}` failed with: `#{err.toString()}`")
+//                        res.end())
+
 
 var Server = function(options) {
     this.options = options;
