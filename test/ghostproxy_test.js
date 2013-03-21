@@ -9,7 +9,7 @@ var grunt       = require('grunt'),
 describe('grunt-ghostproxy', function() {
     var server;
 
-    beforeEach(function() {
+    before(function() {
         server = new ghostproxy.Server({base_dir: "."});
     
     });
@@ -28,7 +28,7 @@ describe('grunt-ghostproxy', function() {
     it("sets up static server for given base_dir when start is called", function() {
 
        var stub = sinon.stub(server.app, "use");
-       server.start();
+       server.start(true);
        expect(stub.calledWith(sinon.match(express.static))).to.be.ok;
        stub.restore();
 
@@ -36,8 +36,8 @@ describe('grunt-ghostproxy', function() {
     
     it("calls setupProxy if proxy host is given", function() {
         var stub = sinon.stub(ghostproxy.Server.prototype, "setupProxy");
-        server = new ghostproxy.Server({base_dir: ".", proxy_host: "foo"});
-        server.start();
+        server = new ghostproxy.Server({base_dir: ".", proxy: {host: "foo"}});
+        server.start(true);
         expect(stub.called).to.be.ok;
         stub.restore();
     });
@@ -45,7 +45,7 @@ describe('grunt-ghostproxy', function() {
     it("does not call setupProxy if proxy host is not given", function() {
         var stub = sinon.stub(ghostproxy.Server.prototype, "setupProxy");
         server = new ghostproxy.Server({base_dir: "."});
-        server.start();
+        server.start(true);
         expect(stub.called).not.to.be.ok;
         stub.restore();
     });

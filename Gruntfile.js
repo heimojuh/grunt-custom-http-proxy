@@ -1,52 +1,57 @@
 /*
- * grunt-ghostproxy
- * https://github.com/evilpupu/grunt-ghostproxy
- *
- * Copyright (c) 2013 Juha Heimonen
- * Licensed under the MIT license.
- */
+ * grunt-custom-http-proxy
+ * https://github.com/evilpupu/grunt-custom-http-proxy
+*
+* Copyright (c) 2013 Juha Heimonen
+* Licensed under the MIT license.
+*/
 
 'use strict';
 
 module.exports = function(grunt) {
 
-  // Project configuration.
-  grunt.initConfig({
-    jshint: {
-      all: [
-        'Gruntfile.js',
-        'tasks/*.js',
-        '<%= simplemocha.tests %>',
-      ],
-      options: {
-        jshintrc: '.jshintrc',
-      },
-    },
-
-    // Before generating any new files, remove any previously-created files.
-    clean: {
-      tests: ['tmp'],
-    },
-
-    // Configuration to be run (and then tested).
-    ghostproxy: {
-        default_options: {
+    // Project configuration.
+    grunt.initConfig({
+        jshint: {
+            all: [
+                'Gruntfile.js',
+                'tasks/*.js',
+                '<%= simplemocha.tests %>',
+            ],
             options: {
-            },
-            files: {
-                'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
+                jshintrc: '.jshintrc',
             },
         },
-        custom_options: {
-            options: {
-                separator: ': ',
-                punctuation: ' !!!',
-            },
-            files: {
-                'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-            },
+
+        watch: {
+            all: {
+                files: ["test/html/index.html"],
+                tasks: "clean"
+            }
         },
-    },
+
+        // Before generating any new files, remove any previously-created files.
+        clean: {
+            tests: ['tmp'],
+        },
+
+        // Configuration to be run (and then tested).
+        "custom-http-proxy": {
+            dev: {
+                options: {
+                    base_dir: "test/html/",
+                    proxy: {
+                        host: "proxyhost",
+                        port: "proxyport"
+                    },
+                    customroutes: function(app) {
+                        app.get('/api/foo', function(req, res){
+                              res.json({ message: "BAR" });
+                                  });
+                    }
+                }
+            }
+        },
 
         simplemocha: {
             options: {
@@ -60,20 +65,20 @@ module.exports = function(grunt) {
             all: { src: 'test/**/*.js' }
         }
 
-  });
+    });
 
-  // Actually load this plugin's task(s).
-  grunt.loadTasks('tasks');
+    // Actually load this plugin's task(s).
+    grunt.loadTasks('tasks');
 
-  // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+    // These plugins provide necessary tasks.
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks('grunt-simple-mocha');
+    // Whenever the "test" task is run, first clean the "tmp" dir, then run this
+    // plugin's task(s), then test the result.
+    grunt.registerTask('test', ['simplemocha']);
 
-  grunt.loadNpmTasks('grunt-simple-mocha');
-  // Whenever the "test" task is run, first clean the "tmp" dir, then run this
-  // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['simplemocha']);
-
-  // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'test']);
+    // By default, lint and run all tests.
+    grunt.registerTask('default', ['jshint', 'test']);
 
 };

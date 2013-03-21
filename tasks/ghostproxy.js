@@ -15,13 +15,14 @@ var ghostproxy = require("./lib/ghostproxy.js");
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerMultiTask('ghostproxy', 'Your task description goes here.', function() {
+  grunt.registerMultiTask('custom-http-proxy', 'Customizable http / proxy server', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
     
     });
 
     var server = new ghostproxy.Server(options);
+    server.start();
 
 
   });
