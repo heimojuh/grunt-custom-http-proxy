@@ -27,13 +27,16 @@ Server.prototype.start = function(silent) {
     var path = process.cwd()+"/"+this.options.base_dir;
     this.app.use(express.static(path));
     grunt.log.writeln("serving from  "+path+" port "+port);
+    
+    if (this.options.customroutes) {
+        grunt.log.writeln("attaching stub routes");
+        this.options.customroutes(this.app);
+    }
+    
     if (this.options.proxy && this.options.proxy.host) {
         proxyport = this.options.proxy.port || 80;
         grunt.log.writeln("Proxying to "+this.options.proxy.host+" port "+proxyport);
         this.setupProxy();
-    }
-    if (this.options.customroutes) {
-        this.options.customroutes(this.app);
     }
     this.app.use(express.errorHandler());
     if (!silent) {
