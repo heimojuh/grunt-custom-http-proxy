@@ -1,7 +1,7 @@
 {
-  "name": "grunt-ghostproxy",
+  "name": "grunt-custom-http-proxy",
   "description": "Server / Mockable proxy for grunt",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/evilpupu/grunt-ghostproxy",
   "author": {
     "name": "Juha Heimonen",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/evilpupu/grunt-ghostproxy.git"
+    "url": "https://github.com/mediacabinet/grunt-custom-http-proxy.git"
   },
   "bugs": {
-    "url": "https://github.com/evilpupu/grunt-ghostproxy/issues"
+    "url": "https://github.com/mediacabinet/grunt-custom-http-proxy/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/evilpupu/grunt-ghostproxy/blob/master/LICENSE-MIT"
+      "url": "https://github.com/mediacabinet/grunt-custom-http-proxy/blob/master/LICENSE-MIT"
     }
   ],
   "main": "Gruntfile.js",
