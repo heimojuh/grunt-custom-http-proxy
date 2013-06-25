@@ -15,7 +15,7 @@ This plugin requires Grunt `~0.4.1`
 ## The "custom-http-proxy" task
 
 ### Overview
-In your project's Gruntfile, add a section named `ghostproxy` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `custom-http-proxy` to the data object passed into `grunt.initConfig()`.
 
 ```js
 "custom-http-proxy": {
