@@ -10,7 +10,9 @@ var apiProxy = function(host, port, proxy) {
         res.end();
     });
     return function(req, res, next) {
-        proxy.proxyRequest(req, res, {"host": host, "port": port}); 
+      
+        req.headers.host = host+":"+port;
+        proxy.proxyRequest(req, res); 
     };
 };
 
@@ -46,7 +48,14 @@ Server.prototype.start = function(silent) {
 
 Server.prototype.setupProxy = function() {
     "use strict";
-    this.app.use(apiProxy(this.options.proxy.host, this.options.proxy.port, new proxy.RoutingProxy()));
+    this.app.use(apiProxy(this.options.proxy.host, this.options.proxy.port, new proxy.HttpProxy({
+        changeOrigin: true,
+        target: {
+            host: this.options.proxy.host,
+            port: this.options.proxy.port
+        }
+        })
+        ));
 };
 
 exports.Server = Server;

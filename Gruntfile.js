@@ -41,8 +41,8 @@ module.exports = function(grunt) {
                 options: {
                     base_dir: "test/html/",
                     proxy: {
-                        host: "proxyhost",
-                        port: "proxyport"
+                        host: "beta.showellapp.com",
+                        port: "80"
                     },
                     customroutes: function(app) {
                         app.get('/api/foo', function(req, res){
